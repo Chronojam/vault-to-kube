@@ -1,6 +1,7 @@
 FROM debian:7
 MAINTAINER calum
 
-COPY kube-test /kube-test
+RUN wget https://github.com/Chronojam/vault-to-kube/releases/download/v0.0.1/vault-to-kube-v0.0.1.tar.gz
+RUN tar -xzf vault-to-kube-v0.0.1.tar.gz
 
 ENTRYPOINT ["/kube-test"]
