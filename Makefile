@@ -3,4 +3,4 @@ build:
 	go build -o bin/kube-test ./kube-test/
 
 release:
-	tar -cvzf release-$(shell git rev-parse HEAD).tar.gz bin/*
+	tar -cvzf vault-to-kube-$(shell cat VERSION).tar.gz bin/*
