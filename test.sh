@@ -1,18 +1,19 @@
 curl \
-    -H "X-Vault-Token: ab7c85c7-40bc-100b-d3ad-90575c6b192f" \
+    -k \
+    -H "X-Vault-Token: c33a75d9-810b-bd6b-53a0-d9b8355f504c" \
     -H "Content-Type: application/json" \
     -X POST \
     -d '{"value":"Secret1"}' \
-    https://localhost:8200/v1/secret/calum/secret1
+    https://vault.chronojam.co.uk:8200/v1/secret/calum/secret1
 
-curl \
-    -H "X-Vault-Token: ab7c85c7-40bc-100b-d3ad-90575c6b192f" \
+curl -k \
+    -H "X-Vault-Token: c33a75d9-810b-bd6b-53a0-d9b8355f504c" \
     -H "Content-Type: application/json" \
     -X POST \
     -d '{"value":"Secret2"}' \
-    https://localhost:8200/v1/secret/calum/secret2
+    https://vault.chronojam.co.uk:8200/v1/secret/calum/secret2
 
-curl \
-    -H "X-Vault-Token: ab7c85c7-40bc-100b-d3ad-90575c6b192f" \
+curl -k \
+    -H "X-Vault-Token: c33a75d9-810b-bd6b-53a0-d9b8355f504c" \
     -X GET \
-    https://localhost:8200/v1/secret/calum?list=true
+    https://vault.chronojam.co.uk:8200/v1/secret/calum?list=true

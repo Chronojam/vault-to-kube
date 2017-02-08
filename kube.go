@@ -2,8 +2,6 @@ package main
 
 import (
 	"fmt"
-///	"reflect"
-//	types "k8s.io/apimachinery/pkg/types"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/rest"
 	"k8s.io/client-go/pkg/api/v1"
@@ -11,11 +9,6 @@ import (
 )
 
 
-
-func main() {
-	ApplicationName := "helloworld"
-	UpdateSecret(ApplicationName, "muh-secrets", map[string][]byte{})
-}
 
 func UpdateSecret(applicationName string, name string, content map[string][]byte) {
 	notFoundErrorString := fmt.Sprintf("secrets \"%s\" not found", name)
@@ -32,17 +25,29 @@ func UpdateSecret(applicationName string, name string, content map[string][]byte
 		panic(err)
 	}
 
+	secretToMake := &v1.Secret{
+		ObjectMeta: meta_v1.ObjectMeta{
+			Name: name,
+		},
+		Data: content,
+	}
+
 	_, err = clientset.CoreV1().Secrets(applicationName).Get(name, meta_v1.GetOptions{})
 	if err != nil {
 		if string(err.Error()) != notFoundErrorString {
 			panic(err)
 		}
 
-		_, err := clientset.CoreV1().Secrets(applicationName).Create(&v1.Secret{ObjectMeta: meta_v1.ObjectMeta{Name: name}, Data: content})
+		_, err := clientset.CoreV1().Secrets(applicationName).Create(secretToMake)
 		if err != nil {
 			panic(err)
 		}
 		return
+	}
+
+	_, err = clientset.CoreV1().Secrets(applicationName).Update(secretToMake)
+	if err != nil {
+		panic(err)
 	}
 
 }

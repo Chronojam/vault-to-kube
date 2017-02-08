@@ -12,13 +12,13 @@ var (
 
 func main() {
 	config := vapi.DefaultConfig()
-	config.Address = "https://localhost:8200"
+	config.Address = "https://vault.chronojam.co.uk:8200"
 	client, err := vapi.NewClient(config)
 	if err != nil {
 		panic(err)
 	}
 
-	client.SetToken("ab7c85c7-40bc-100b-d3ad-90575c6b192f")
+	client.SetToken("c33a75d9-810b-bd6b-53a0-d9b8355f504c")
 	c := client.Logical()
 
 	calumStop := make(chan struct{})

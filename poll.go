@@ -31,6 +31,10 @@ func PollLoop(client *vapi.Logical, stop chan struct{}, appname string) {
 				// Do some handling.
 			}
 
+			if secret == nil {
+				continue
+			}
+
 			for _, s := range secret.Data["keys"].([]interface{}) {
 				secretName := s.(string)
 				completePath := VaultPath + "/" + secretName
@@ -58,6 +62,17 @@ func PollLoop(client *vapi.Logical, stop chan struct{}, appname string) {
 				// Key doesnt exist, or it does exist and the value needs updating.
 				PollMap[secretName] = hash
 				fmt.Println("UPDATING: ", secretName)
+				content := map[string][]byte{}
+				// Turn val.Data into a map[string][]byte
+				for k, v := range val.Data {
+					val, ok := v.(string)
+					if !ok {
+						fmt.Println("Couldnt convert to string.", v, val)
+					}
+					content[k] = []byte(val)
+				}
+
+				UpdateSecret(appname, secretName, content)
 			}
 		}
 	}
